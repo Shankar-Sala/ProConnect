@@ -7,27 +7,35 @@ import Loading from "../components/Loading";
 
 const Layout = () => {
   const user = dummyUserData;
-  const [SidebarOpen, setSidebarOpen] = useState(false);
-  return user ? (
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (!user) return <Loading />;
+
+  return (
     <div className="w-full flex h-screen">
-      <Sidebar SidebarOpen={SidebarOpen} setSidebarOpen={setSidebarOpen} />
+      <Sidebar SidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
+
       <div className="flex-1 bg-slate-50">
         <Outlet />
       </div>
-      {SidebarOpen ? (
-        <X
-          className="absolute top-3 right-3 p-2 z-100 bg-white rounded-md shadow w-10 h-10 text-gray-600 sm:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      ) : (
-        <Menu
-          className="absolute top-3 right-3 p-2 z-100 bg-white rounded-md shadow w-10 h-10 text-gray-600 sm:hidden"
-          onClick={() => setSidebarOpen(true)}
-        />
-      )}
+
+      {/* Sidebar toggle button */}
+      <div className="absolute top-3 right-3 sm:hidden">
+        {sidebarOpen ? (
+          <X
+            className="p-2 z-[100] bg-white rounded-md shadow w-10 h-10 text-gray-600"
+            onClick={() => setSidebarOpen(false)}
+            aria-label="Close sidebar"
+          />
+        ) : (
+          <Menu
+            className="p-2 z-[100] bg-white rounded-md shadow w-10 h-10 text-gray-600"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open sidebar"
+          />
+        )}
+      </div>
     </div>
-  ) : (
-    <Loading />
   );
 };
 
