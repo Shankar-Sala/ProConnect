@@ -17,10 +17,10 @@ const Login = () => {
       <div className="flex-1 flex flex-col items-start justify-between p-6 md:p-10 lg:p1-40">
         {/* <img src={assets.logo} alt="" className="h-12 object-contain" /> */}
         <img
-  src="/logo.png"
-  alt="ProConnect Logo"
-  className="w-32 sm:w-40 md:w-48 lg:w-56 h-auto object-contain"
-/>
+          src="/logo.png"
+          alt="ProConnect Logo"
+          className="w-48 sm:w-40 md:w-48 lg:w-64 xl:w-72 h-auto object-contain"
+        />
 
         <div>
           <div className="flex items-center gap-3 mb-4 max-md:mt-10">

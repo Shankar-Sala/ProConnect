@@ -17,12 +17,20 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       } transition-all duration-300 ease-in-out`}
     >
       <div className="w-full">
-        <img
+        {/* <img
           onClick={() => navigate("/")}
           src={assets.logo}
           className="w-26 ml-7 my-2 cursor-pointer"
           alt=""
+        /> */}
+
+        <img
+          onClick={() => navigate("/")}
+          src="/logo.png"
+          alt="ProConnect Logo"
+          className="mx-auto my-3 w-28 sm:w-32 md:w-36 lg:w-40 cursor-pointer h-auto object-contain"
         />
+
         <hr className="border-gray-300 mb-8" />
         <MenuItems setSidebarOpen={setSidebarOpen} />
         <Link
@@ -41,7 +49,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
             <p className="text-xs text-gray-500">@{user.username}</p>
           </div>
         </div>
-        <LogOut onClick={signOut} className="w-4.5 text-gray-400 hover:text-gray-700 transition cursor-pointer" />
+        <LogOut
+          onClick={signOut}
+          className="w-4.5 text-gray-400 hover:text-gray-700 transition cursor-pointer"
+        />
       </div>
     </div>
   );
