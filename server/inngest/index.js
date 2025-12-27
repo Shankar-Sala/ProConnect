@@ -1,99 +1,65 @@
-// import { Inngest } from "inngest";
-// import User from "../models/User.js";
-// import connectDB from "../configs/db.js";
+import { Inngest } from "inngest";
+import User from "../models/User.js";
 
-// export const inngest = new Inngest({ id: "proconnect-app" });
+// Create a client to send and receive events
+export const inngest = new Inngest({ id: "proconnect" });
 
-// /* ---------------- USER CREATED ---------------- */
-// const syncUserCreation = inngest.createFunction(
-//   { id: "sync-user-from-clerk" },
-//   { event: "clerk/user.created" },
-//   async ({ event }) => {
-//     await connectDB();
+//Inngest Function to save user data to a database
+const syncUserCreation = inngest.createFunction(
+  {id: 'sync-user-from-clerk'},
+  {event: 'clerk/user.created'},
+  async ({event})=>{
+    const {id, first_name, last_name, email_addresses, image_url} = event.data
+    let username = email_addresses[0].email_address.split('@')[0]
 
-//     const {
-//       id,
-//       first_name,
-//       last_name,
-//       email_addresses,
-//       primary_email_address_id,
-//       image_url,
-//     } = event.data;
+    // Check availability of username
+    const user = await User.findOne({username})
 
-//     // ✅ SAFELY GET PRIMARY EMAIL
-//     const primaryEmail = email_addresses?.find(
-//       (email) => email.id === primary_email_address_id
-//     );
+    if (user) {
+      username = username + Math.floor(Math.random() * 10000)
+    }
 
-//     if (!primaryEmail) {
-//       console.error("❌ No primary email for user:", id);
-//       return;
-//     }
+    const userData = {
+      _id: id,
+      email: email_addresses[0].email_address,
+      full_name: first_name + " " + last_name,
+      profile_picture: image_url,
+      username
+    }
+    await User.create(userData)
+  }
+)
 
-//     const email = primaryEmail.email_address;
 
-//     let username = email.split("@")[0].toLowerCase();
+//Inngest Function to update user data to a database
+const syncUserUpdation = inngest.createFunction(
+  {id: 'update-user-from-clerk'},
+  {event: 'clerk/user.updated'},
+  async ({event})=>{
+    const {id, first_name, last_name, email_addresses, image_url} = event.data
+   
+  const updatedUserData = {
+    email: email_addresses[0].email_address,
+    full_name: first_name + ' ' + last_name,
+    profile_picture: image_url
+  }
+  await User.findByIdAndUpdate(id, updatedUserData)
+  }
+)
 
-//     const exists = await User.findOne({ username });
-//     if (exists) {
-//       username = `${username}${Math.floor(Math.random() * 10000)}`;
-//     }
+//Inngest Function to Delete user from database
+const syncUserDeletion = inngest.createFunction(
+  {id: 'delete-user-with-clerk'},
+  {event: 'clerk/user.deleted'},
+  async ({event})=>{
+    const {id} = event.data
+    await User.findByIdAndDelete(id)  
+  }
+)
 
-//     await User.create({
-//       _id: id,
-//       email,
-//       full_name: `${first_name || ""} ${last_name || ""}`.trim(),
-//       profile_picture: image_url || "",
-//       username,
-//     });
-
-//     console.log("✅ User inserted into MongoDB:", id);
-//   }
-// );
-
-// /* ---------------- USER UPDATED ---------------- */
-// const syncUserUpdation = inngest.createFunction(
-//   { id: "update-user-from-clerk" },
-//   { event: "clerk/user.updated" },
-//   async ({ event }) => {
-//     await connectDB();
-
-//     const {
-//       id,
-//       first_name,
-//       last_name,
-//       email_addresses,
-//       primary_email_address_id,
-//       image_url,
-//     } = event.data;
-
-//     const primaryEmail = email_addresses?.find(
-//       (email) => email.id === primary_email_address_id
-//     );
-
-//     await User.findByIdAndUpdate(id, {
-//       email: primaryEmail?.email_address,
-//       full_name: `${first_name || ""} ${last_name || ""}`.trim(),
-//       profile_picture: image_url || "",
-//     });
-
-//     console.log("🔁 User updated:", id);
-//   }
-// );
-
-// /* ---------------- USER DELETED ---------------- */
-// const syncUserDeletion = inngest.createFunction(
-//   { id: "delete-user-from-clerk" },
-//   { event: "clerk/user.deleted" },
-//   async ({ event }) => {
-//     await connectDB();
-//     await User.findByIdAndDelete(event.data.id);
-//     console.log("🗑 User deleted:", event.data.id);
-//   }
-// );
-
-// export const functions = [
-//   syncUserCreation,
-//   syncUserUpdation,
-//   syncUserDeletion,
-// ];
+// Create an empty array where we'll export future Inngest functions
+export const functions = [
+  syncUserCreation,
+  syncUserUpdation,
+  syncUserDeletion
+];
