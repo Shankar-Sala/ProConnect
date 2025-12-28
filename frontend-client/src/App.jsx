@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
+import { useUser, useAuth } from "@clerk/clerk-react";
 import { Toaster } from "react-hot-toast";
 
 import Login from "./Pages/Login";
@@ -16,6 +16,13 @@ import Loading from "./components/Loading";
 
 const App = () => {
   const { user, isLoaded } = useUser();
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      getToken().then((token) => console.log(token));
+    }
+  }, [user]);
 
   if (!isLoaded) return <Loading />;
 
@@ -24,7 +31,10 @@ const App = () => {
       <Toaster />
       <Routes>
         {/* Public route */}
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+        <Route
+          path="/login"
+          element={!user ? <Login /> : <Navigate to="/" />}
+        />
 
         {/* Protected routes */}
         {user && (
@@ -37,7 +47,10 @@ const App = () => {
             <Route path="profile" element={<Profile />} />
             <Route path="profile/:profileId" element={<Profile />} />
             <Route path="create-post" element={<CreatePost />} />
-            <Route path="*" element={<div className="text-center mt-10">Page Not Found</div>} />
+            <Route
+              path="*"
+              element={<div className="text-center mt-10">Page Not Found</div>}
+            />
           </Route>
         )}
 
