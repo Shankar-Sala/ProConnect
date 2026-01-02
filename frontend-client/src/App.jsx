@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import eact, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useUser, useAuth } from "@clerk/clerk-react";
 import { Toaster } from "react-hot-toast";
@@ -13,16 +13,26 @@ import Profile from "./Pages/Profile";
 import CreatePost from "./Pages/CreatePost";
 import Layout from "./Pages/Layout";
 import Loading from "./components/Loading";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "./features/user/userSlice";
 
 const App = () => {
   const { user, isLoaded } = useUser();
   const { getToken } = useAuth();
 
+  const dispatch = useDispatch
+
   useEffect(() => {
+    const fetchData = async () => {
     if (user) {
-      getToken().then((token) => console.log(token));
+      const token = await getToken()
+      useDispatch(fetchUser(token))
     }
-  }, [user]);
+    }
+
+    fetchData()
+
+  }, [user, getToken, dispatch]);
 
   if (!isLoaded) return <Loading />;
 
