@@ -6,6 +6,7 @@
   font-family: "Outfit", sans-serif;
 }
 
+/* to scroll use shift and mouse scroll btn */
 .no-scrollbar::-webkit-scrollbar{
   display: none;
 }

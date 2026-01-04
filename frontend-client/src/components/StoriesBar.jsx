@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from 'react'
-import { dummyStoriesData } from '../assets/assets'
-import { Plus } from 'lucide-react'
-import moment from 'moment'
-import StoryModal from './StoryModal'
-import StoryViewer from './StoryViewer'
+import React, { useEffect, useState } from "react";
+import { dummyStoriesData } from "../assets/assets";
+import { Plus } from "lucide-react";
+import moment from "moment";
+import StoryModal from "./StoryModal.jsx";
+import StoryViewer from "./StoryViewer.jsx";
 
 const StoriesBar = () => {
-  const [stories, setStories] = useState([])
-  const [showModal, setShowModal] = useState(false)
-  const [viewStory, setViewStory] = useState(null)
+  const [stories, setStories] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [viewStory, setViewStory] = useState(null);
 
-  // load stories
+  const fetchStories = async () => {
+    setStories(dummyStoriesData);
+  };
+
   useEffect(() => {
-    const fetchStories = async () => {
-      // if later you fetch from API, keep this async
-      setStories(dummyStoriesData)
-    }
-
-    fetchStories()
-  }, [])
+    fetchStories();
+  }, []);
 
   return (
     <div className="w-screen sm:w-[calc(100vw-240px)] lg:max-w-2xl no-scrollbar overflow-x-auto px-4">
       <div className="flex gap-4 pb-5">
-        {/* Create Story card */}
+        {/* Add Story card */}
         <div
           onClick={() => setShowModal(true)}
           className="rounded-lg shadow-sm min-w-30 max-w-30 max-h-40 aspect-[3/4] cursor-pointer hover:shadow-lg transition-all duration-200 border-2 border-dashed border-indigo-300 bg-gradient-to-b from-indigo-50 to-white"
@@ -37,35 +35,27 @@ const StoriesBar = () => {
             </p>
           </div>
         </div>
-
         {/* Story cards */}
         {stories.map((story, index) => (
           <div
-            key={story.id ?? index}
             onClick={() => setViewStory(story)}
-            className="relative rounded-lg shadow min-w-30 max-w-30 max-h-40 cursor-pointer hover:shadow-lg transition-all duration-200 bg-gradient-to-b from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95"
+            key={index}
+            className={`relative rounded-lg shadow min-w-30 max-w-30 max-h-40 cursor-pointer hover:shadow-lg transition-all duration-200 bg-gradient-to-b from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95`}
           >
-            {/* user avatar */}
             <img
-              src={story.user?.profile_picture}
+              src={story.user.profile_picture}
               alt=""
               className="absolute size-8 top-3 left-3 z-10 rounded-full ring ring-gray-100 shadow"
             />
-
-            {/* story text */}
             <p className="absolute top-18 left-3 text-white/60 text-sm truncate max-w-24">
               {story.content}
             </p>
-
-            {/* time */}
             <p className="text-white absolute bottom-1 right-2 z-10 text-xs">
               {moment(story.createdAt).fromNow()}
             </p>
-
-            {/* media (image / video) */}
-            {story.media_type && story.media_type !== 'text' && (
+            {story.media_type !== "text" && (
               <div className="absolute inset-0 z-1 rounded-lg bg-black overflow-hidden">
-                {story.media_type === 'image' ? (
+                {story.media_type === "image" ? (
                   <img
                     src={story.media_url}
                     alt=""
@@ -75,9 +65,6 @@ const StoriesBar = () => {
                   <video
                     src={story.media_url}
                     className="h-full w-full object-cover hover:scale-110 transition duration-500 opacity-70 hover:opacity-80"
-                    autoPlay
-                    muted
-                    loop
                   />
                 )}
               </div>
@@ -86,17 +73,19 @@ const StoriesBar = () => {
         ))}
       </div>
 
-      {/* Story Modal */}
+      {/* Add Story Modal */}
       {showModal && (
-        <StoryModal setShowModal={setShowModal} fetchStories={() => setStories(dummyStoriesData)} />
+        <StoryModal setShowModal={setShowModal} fetchStories={fetchStories} />
       )}
 
-      {/* Story Viewer */}
+      {/* View Story Modal */}
       {viewStory && (
         <StoryViewer viewStory={viewStory} setViewStory={setViewStory} />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default StoriesBar
+export default StoriesBar;
+
+

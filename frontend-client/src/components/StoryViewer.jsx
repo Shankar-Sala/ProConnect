@@ -10,15 +10,16 @@ const StoryViewer = ({ viewStory, setViewStory }) => {
     if (viewStory && viewStory.media_type !== "video") {
       setProgress(0);
 
-      const duration = 10000; // 10 seconds
-      const intervalTime = 100;
+      const duration = 10000;
+      const setTime = 100;
       let elapsed = 0;
 
       progressInterval = setInterval(() => {
-        elapsed += intervalTime;
+        elapsed += setTime;
         setProgress((elapsed / duration) * 100);
-      }, intervalTime);
+      }, setTime);
 
+      //close story after duration(10sec)
       timer = setTimeout(() => {
         setViewStory(null);
       }, duration);
@@ -30,7 +31,9 @@ const StoryViewer = ({ viewStory, setViewStory }) => {
     };
   }, [viewStory, setViewStory]);
 
-  const handleClose = () => setViewStory(null);
+  const handleClose = () => {
+    setViewStory(null);
+  };
 
   if (!viewStory) return null;
 
@@ -40,19 +43,18 @@ const StoryViewer = ({ viewStory, setViewStory }) => {
         return (
           <img
             src={viewStory.media_url}
-            alt="Story"
-            className="max-w-full max-h-[90vh] object-contain"
+            alt=""
+            className="max-w-full max-h-screen object-contain"
           />
         );
       case "video":
         return (
           <video
-            src={viewStory.media_url}
-            className="max-h-[90vh] max-w-[90vw] object-contain"
-            autoPlay
-            muted
-            controls
             onEnded={() => setViewStory(null)}
+            src={viewStory.media_url}
+            className="max-h-screen"
+            controls
+            autoPlay
           />
         );
       case "text":
@@ -68,30 +70,27 @@ const StoryViewer = ({ viewStory, setViewStory }) => {
 
   return (
     <div
-      className="fixed inset-0 h-screen z-[110] flex items-center justify-center"
+      className="fixed inset-0 h-screen bg-black bg-opacity-90 z-110 flex items-center justify-center"
       style={{
         backgroundColor:
           viewStory.media_type === "text"
-            ? viewStory.background_color || "#4f46e5"
+            ? viewStory.background_color
             : "#000000",
       }}
     >
-      {/* Progress Bar */}
-      {viewStory.media_type !== "video" && (
-        <div className="absolute top-0 left-0 w-full h-1 bg-gray-700">
-          <div
-            className="h-full bg-white transition-all duration-100 ease-linear"
-            style={{ width: `${progress}%` }}
-          />
-        </div>
-      )}
-
-      {/* User Info */}
+      {/* Progress Bar  */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gray-700">
+        <div
+          className="h-full bg-white transition-all duration-100 linear"
+          style={{ width: `${progress}%` }}
+        ></div>
+      </div>
+      {/* User Info - Top Left  */}
       <div className="absolute top-4 left-4 flex items-center space-x-3 p-2 px-4 sm:p-4 sm:px-8 backdrop-blur-2xl rounded bg-black/50">
         <img
           src={viewStory.user?.profile_picture}
-          alt={viewStory.user?.full_name}
-          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full object-cover border border-white"
+          alt=""
+          className="size-7 sm:size-8 rounded-full object-cover border-white"
         />
         <div className="text-white font-medium flex items-center gap-1.5">
           <span>{viewStory.user?.full_name}</span>
@@ -99,7 +98,7 @@ const StoryViewer = ({ viewStory, setViewStory }) => {
         </div>
       </div>
 
-      {/* Close Button */}
+      {/* Close Button  */}
       <button
         onClick={handleClose}
         className="absolute top-4 right-4 text-white text-3xl font-bold focus:outline-none"
@@ -107,7 +106,7 @@ const StoryViewer = ({ viewStory, setViewStory }) => {
         <X className="w-8 h-8 hover:scale-110 transition cursor-pointer" />
       </button>
 
-      {/* Content Wrapper */}
+      {/* Content Wrapper  */}
       <div className="max-w-[90vw] max-h-[90vh] flex items-center justify-center">
         {renderContent()}
       </div>

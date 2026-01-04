@@ -65,8 +65,8 @@ export const dummyStoriesData = [
         "media_url": "",
         "media_type": "text",
         "background_color": "#4f46e5",
-        "createdAt": "2025-12-23T00:12:06.958Z",
-        "updatedAt": "2025-07-25T08:16:06.958Z",
+        "createdAt": "2026-01-03T05:30:00.000Z",
+        "updatedAt": "2026-01-03T05:30:00.000Z",
     },
     {
         "_id": "688340046e4b42b685068a73",

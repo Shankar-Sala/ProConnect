@@ -1,9 +1,9 @@
 import React from "react";
-import { assets, dummyUserData } from "../assets/assets";
 import { Link, useNavigate } from "react-router-dom";
-import MenuItems from "./MenuItems";
+import MenuItems from "./MenuItems.jsx";
 import { CirclePlus, LogOut } from "lucide-react";
 import { UserButton, useClerk } from "@clerk/clerk-react";
+import { dummyUserData } from "../assets/assets.js";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const navigate = useNavigate();
@@ -17,20 +17,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       } transition-all duration-300 ease-in-out`}
     >
       <div className="w-full">
-        {/* <img
-          onClick={() => navigate("/")}
-          src={assets.logo}
-          className="w-26 ml-7 my-2 cursor-pointer"
-          alt=""
-        /> */}
-
         <img
           onClick={() => navigate("/")}
           src="/logo.png"
           alt="ProConnect Logo"
           className="mx-auto my-3 w-28 sm:w-32 md:w-36 lg:w-40 cursor-pointer h-auto object-contain"
         />
-
         <hr className="border-gray-300 mb-8" />
         <MenuItems setSidebarOpen={setSidebarOpen} />
         <Link
