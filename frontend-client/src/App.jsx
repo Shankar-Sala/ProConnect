@@ -12,30 +12,42 @@ import { useAuth, useUser } from "@clerk/clerk-react";
 import Layout from "./Pages/Layout.jsx";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchUser } from "./features/user/userSlice.js";
+//! backend check remove comment
+// import { useDispatch } from "react-redux";
+// import { fetchUser } from "./features/user/userSlice.js";
 
 const App = () => {
   //!old code 
   const { user } = useUser();
+//!cut/remove ========================================
+const { getToken } = useAuth()
 
-  //!new code 
-//   const { user, isLoaded } = useUser();
-// if (!isLoaded) return null;
+useEffect(()=>{
+  if(user){
+    getToken().then((token)=>console.log(token))
+  }
+},[user])
+//!cut/remove ========================================
 
-  const { getToken } = useAuth();
 
-  const dispatch = useDispatch();
+//! backend check remove comment
+//! new code 
+// //   const { user, isLoaded } = useUser();
+// // if (!isLoaded) return null;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (user) {
-        const token = await getToken();
-        dispatch(fetchUser(token));
-      }
-    };
-    fetchData();
-  }, [user, getToken, dispatch]);
+//   const { getToken } = useAuth();
+
+//   const dispatch = useDispatch();
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       if (user) {
+//         const token = await getToken();
+//         dispatch(fetchUser(token));
+//       }
+//     };
+//     fetchData();
+//   }, [user, getToken, dispatch]);
 
   return (
     <>
