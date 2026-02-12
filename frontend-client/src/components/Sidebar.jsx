@@ -3,16 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import MenuItems from "./MenuItems.jsx";
 import { CirclePlus, LogOut } from "lucide-react";
 import { UserButton, useClerk } from "@clerk/clerk-react";
-// import { dummyUserData } from "../assets/assets.js";
 import { useSelector } from "react-redux";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const navigate = useNavigate();
-   //!delete dummy data later
-  // const user = dummyUserData;
 
-  //! update code
+  // Redux user (can be undefined on first render)
   const user = useSelector((state) => state.user.value);
+
   const { signOut } = useClerk();
 
   return (
@@ -21,6 +19,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
         sidebarOpen ? "translate-x-0" : "max-sm:-translate-x-full"
       } transition-all duration-300 ease-in-out`}
     >
+      {/* TOP SECTION */}
       <div className="w-full">
         <img
           onClick={() => navigate("/")}
@@ -28,24 +27,36 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
           alt="ProConnect Logo"
           className="mx-auto my-3 w-28 sm:w-32 md:w-36 lg:w-40 cursor-pointer h-auto object-contain"
         />
+
         <hr className="border-gray-300 mb-8" />
+
         <MenuItems setSidebarOpen={setSidebarOpen} />
+
         <Link
           to="/create-post"
-          className="flex item-center justify-center gap-2 py-2.5 mt-6 mx-6 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95 transition text-white cursor-pointer"
+          className="flex items-center justify-center gap-2 py-2.5 mt-6 mx-6 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-700 hover:to-purple-800 active:scale-95 transition text-white cursor-pointer"
         >
           <CirclePlus className="w-5 h-5" />
           Create Post
         </Link>
       </div>
-      <div className="w-full border-t border-gray-200 p-4 px-7 flex item-center justify-between">
+
+      {/* BOTTOM PROFILE SECTION */}
+      <div className="w-full border-t border-gray-200 p-4 px-7 flex items-center justify-between">
         <div className="flex gap-2 items-center cursor-pointer">
           <UserButton />
+
+          {/* SAFE RENDER (FIX) */}
           <div>
-            <h1 className="text-sm font-medium">{user.full_name}</h1>
-            <p className="text-xs text-gray-500">@{user.username}</p>
+            <h1 className="text-sm font-medium">
+              {user?.full_name || "Loading..."}
+            </h1>
+            <p className="text-xs text-gray-500">
+              @{user?.username || "user"}
+            </p>
           </div>
         </div>
+
         <LogOut
           onClick={signOut}
           className="w-4.5 text-gray-400 hover:text-gray-700 transition cursor-pointer"
