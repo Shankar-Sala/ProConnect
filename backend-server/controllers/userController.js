@@ -49,50 +49,88 @@ export const updateUserData = async (req, res) => {
     //! file upload code for profile image start here (imageKit)
     if (profile) {
       const buffer = fs.readFileSync(profile.path);
-      const response = await imagekit.upload({
+
+      const response = await imagekit.files.upload({
         file: buffer,
         fileName: profile.originalname,
       });
+
       //! URL Generation code
-      const url = imagekit.url({
-        path: response.filePath,
+      const url = imagekit.helper.buildSrc({
+        src: response.filePath,
         transformation: [
-          { quality: "auto" },
-          { format: "webp" },
-          { width: "512" },
+          {
+            width: 512,
+            height: 512,
+            crop: "force",
+            focus: "face",
+            format: "webp",
+            quality: 80,
+          },
         ],
       });
+
       updatedData.profile_picture = url;
     }
 
     //! file upload code for cover image start here (imageKit)
     if (cover) {
       const buffer = fs.readFileSync(cover.path);
-      const response = await imagekit.upload({
+
+      const response = await imagekit.files.upload({
         file: buffer,
-        fileName: profile.originalname,
+        fileName: cover.originalname,
       });
-      //! URL Generation code
-      const url = imagekit.url({
-        path: response.filePath,
+
+      const url = imagekit.helper.buildSrc({
+        src: response.filePath,
         transformation: [
-          { quality: "auto" },
-          { format: "webp" },
-          { width: "1280" },
+          {
+            width: 1280,
+            quality: 80,
+            format: "webp",
+          },
         ],
       });
+
       updatedData.cover_photo = url;
     }
 
     //save to db
-    const user = await User.findByIdAndUpdate(userId, updatedData, {new : true});
+    const user = await User.findByIdAndUpdate(userId, updatedData, {
+      new: true,
+    });
 
-     res.json({success: true, user, message: "Profile updated successfully",});
-
+    res.json({ success: true, user, message: "Profile updated successfully" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
 
-//
+//! Find Users using username, email, location, name
+export const discoverUsers = async (req, res) => {
+  try {
+    const {userId} = req.auth()
+    const { input } = req.body;
+
+    const allUsers = await User.find(
+      {
+        $or: [
+          {username: new RegExp(input, 'i')},
+          {email: new RegExp(input, 'i')},
+          {full_name: new RegExp(input, 'i')},
+          {location: new RegExp(input, 'i')},
+        ]
+    }
+  )
+
+    const filteredUsers = allUsers.filter(user=> user._id !== userId);
+
+    res.json({ success: true, users: filteredUsers });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+//!end
