@@ -1,6 +1,6 @@
 import imagekit from "../configs/imagekit.js";
 import User from "../models/User.js";
-import fs from "fs";
+// import fs from "fs";
 
 //! Get User Data using userId
 export const getUserData = async (req, res) => {
@@ -21,6 +21,8 @@ export const getUserData = async (req, res) => {
 //! Update User Data
 export const updateUserData = async (req, res) => {
   try {
+    //! Debugging
+    // console.log("FILES:", req.files);
     const { userId } = req.auth();
     let { username, bio, location, full_name } = req.body;
 
@@ -43,21 +45,21 @@ export const updateUserData = async (req, res) => {
       full_name,
     };
 
-    const profile = req.files.profile && req.files.profile[0];
-    const cover = req.files.cover && req.files.cover[0];
+    const profile = req.files?.profile?.[0];
+    const cover = req.files?.cover?.[0];
 
     //! file upload code for profile image start here (imageKit)
     if (profile) {
-      const buffer = fs.readFileSync(profile.path);
+      const base64File = profile.buffer.toString("base64");
 
       const response = await imagekit.files.upload({
-        file: buffer,
-        fileName: profile.originalname,
+        file: base64File,
+        fileName: `${Date.now()}-${profile.originalname}`,
+        folder: "/profiles",
       });
 
-      //! URL Generation code
       const url = imagekit.helper.buildSrc({
-        src: response.filePath,
+        src: response.url,
         transformation: [
           {
             width: 512,
@@ -75,30 +77,30 @@ export const updateUserData = async (req, res) => {
 
     //! file upload code for cover image start here (imageKit)
     if (cover) {
-      const buffer = fs.readFileSync(cover.path);
+      const base64File = cover.buffer.toString("base64");
 
       const response = await imagekit.files.upload({
-        file: buffer,
-        fileName: cover.originalname,
+        file: base64File,
+        fileName: `${Date.now()}-${cover.originalname}`,
+        folder: "/covers",
       });
 
       const url = imagekit.helper.buildSrc({
-        src: response.filePath,
+        src: response.url,
         transformation: [
           {
             width: 1280,
-            quality: 80,
             format: "webp",
+            quality: 80,
           },
         ],
       });
 
       updatedData.cover_photo = url;
     }
-
     //save to db
     const user = await User.findByIdAndUpdate(userId, updatedData, {
-      new: true,
+      returnDocument: "after",
     });
 
     res.json({ success: true, user, message: "Profile updated successfully" });
@@ -111,21 +113,19 @@ export const updateUserData = async (req, res) => {
 //! Find Users using username, email, location, name
 export const discoverUsers = async (req, res) => {
   try {
-    const {userId} = req.auth()
+    const { userId } = req.auth();
     const { input } = req.body;
 
-    const allUsers = await User.find(
-      {
-        $or: [
-          {username: new RegExp(input, 'i')},
-          {email: new RegExp(input, 'i')},
-          {full_name: new RegExp(input, 'i')},
-          {location: new RegExp(input, 'i')},
-        ]
-    }
-  )
+    const allUsers = await User.find({
+      $or: [
+        { username: new RegExp(input, "i") },
+        { email: new RegExp(input, "i") },
+        { full_name: new RegExp(input, "i") },
+        { location: new RegExp(input, "i") },
+      ],
+    });
 
-    const filteredUsers = allUsers.filter(user=> user._id !== userId);
+    const filteredUsers = allUsers.filter((user) => user._id !== userId);
 
     res.json({ success: true, users: filteredUsers });
   } catch (error) {
@@ -138,24 +138,26 @@ export const discoverUsers = async (req, res) => {
 //! Follow User
 export const followUser = async (req, res) => {
   try {
-    const {userId} = req.auth()
+    const { userId } = req.auth();
     const { id } = req.body;
 
     const user = await User.findById(userId);
 
-    if(user.following.includes(id)){
-      return res.json({success: false, message: "You are already following this user"})
+    if (user.following.includes(id)) {
+      return res.json({
+        success: false,
+        message: "You are already following this user",
+      });
     }
 
     user.following.push(id);
-    await user.save()
+    await user.save();
 
-    const toUser = await User.findById(id)  //other user
-    toUser.followers.push(userId)
-    await toUser.save()
+    const toUser = await User.findById(id); //other user
+    toUser.followers.push(userId);
+    await toUser.save();
 
-    res.json({ success: true, message: 'Now you are following this user' });
-
+    res.json({ success: true, message: "Now you are following this user" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -166,22 +168,23 @@ export const followUser = async (req, res) => {
 //! Unfollow User
 export const unfollowUser = async (req, res) => {
   try {
-    const {userId} = req.auth()
+    const { userId } = req.auth();
     const { id } = req.body;
 
     const user = await User.findById(userId);
 
-    user.following = user.following.filter(user=> user !== id)
-    await user.save()
+    user.following = user.following.filter((user) => user !== id);
+    await user.save();
 
     //other user
     const toUser = await User.findById(id);
-     toUser.followers = toUser.followers.filter(user=> user !== userId)
-    await toUser.save()
+    toUser.followers = toUser.followers.filter((user) => user !== userId);
+    await toUser.save();
 
-
-    res.json({ success: true, message: 'You are no longer following this user' });
-
+    res.json({
+      success: true,
+      message: "You are no longer following this user",
+    });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
