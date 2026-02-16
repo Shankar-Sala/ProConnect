@@ -1,4 +1,4 @@
-import imagekit from "../configs/imagekit.js";
+import imagekit from "../configs/imageKit.js";
 import { inngest } from "../inngest/index.js";
 import Connection from "../models/Connections.js";
 import User from "../models/User.js";

@@ -1,6 +1,9 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
-import sendEmail from "../configs/nodemailer.js";
+import Connection from "../models/Connection.js";
+import sendEmail from "../configs/nodeMailer.js";
+import Story from "../models/Story.js";
+import Message from "../models/Message.js";
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "proconnect" });
@@ -135,7 +138,7 @@ const deleteStory = inngest.createFunction(
 const sendNotificationOfUnseenMessages = inngest.createFunction(
   { id: "send-unseen-messages-notification" },
   { cron: "TZ=America/New_York 0 9 * * *" }, // Every Day 9 am
-  async ({ step }) => {
+  async ({ step })  => {
     const messages = await Message.find({ seen: false }).populate("to_user_id");
     const unseenCount = {};
 

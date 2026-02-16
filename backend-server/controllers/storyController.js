@@ -1,7 +1,8 @@
 import Story from "../models/Story.js";
 import User from "../models/User.js";
 import { inngest } from "../inngest/index.js";
-import imagekit from "../configs/imagekit.js";
+import imagekit from "../configs/imageKit.js";
+
 
 // Add user story
 export const addUserStory = async (req, res) => {
