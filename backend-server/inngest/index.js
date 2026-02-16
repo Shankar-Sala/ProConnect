@@ -1,6 +1,6 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
-import Connection from "../models/Connection.js";
+import Connection from "../models/Connections.js";
 import sendEmail from "../configs/nodeMailer.js";
 import Story from "../models/Story.js";
 import Message from "../models/Message.js";
@@ -132,13 +132,13 @@ const deleteStory = inngest.createFunction(
       await Story.findByIdAndDelete(storyId);
       return { message: "Story deleted." };
     });
-  }
+  },
 );
 
 const sendNotificationOfUnseenMessages = inngest.createFunction(
   { id: "send-unseen-messages-notification" },
   { cron: "TZ=America/New_York 0 9 * * *" }, // Every Day 9 am
-  async ({ step })  => {
+  async ({ step }) => {
     const messages = await Message.find({ seen: false }).populate("to_user_id");
     const unseenCount = {};
 
@@ -165,11 +165,11 @@ const sendNotificationOfUnseenMessages = inngest.createFunction(
       await sendEmail({
         to: user.email,
         subject,
-        body 
-      })
+        body,
+      });
     }
-    return {message: "Notification sent."}
-  }
+    return { message: "Notification sent." };
+  },
 );
 
 // Create an empty array where we'll export future Inngest functions
@@ -179,5 +179,5 @@ export const functions = [
   syncUserDeletion,
   sendNewConnectionRequestRemainder,
   deleteStory,
-  sendNotificationOfUnseenMessages
+  sendNotificationOfUnseenMessages,
 ];

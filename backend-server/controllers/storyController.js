@@ -3,7 +3,6 @@ import User from "../models/User.js";
 import { inngest } from "../inngest/index.js";
 import imagekit from "../configs/imageKit.js";
 
-
 // Add user story
 export const addUserStory = async (req, res) => {
   try {
@@ -15,10 +14,11 @@ export const addUserStory = async (req, res) => {
 
     // ✅ Upload media to ImageKit (if image or video)
     if ((media_type === "image" || media_type === "video") && media) {
-
       // Validate media type
-      if (!media.mimetype.startsWith("image/") && 
-          !media.mimetype.startsWith("video/")) {
+      if (
+        !media.mimetype.startsWith("image/") &&
+        !media.mimetype.startsWith("video/")
+      ) {
         return res.json({
           success: false,
           message: "Only image or video files are allowed",
@@ -52,13 +52,11 @@ export const addUserStory = async (req, res) => {
     });
 
     res.json({ success: true, story });
-
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
   }
 };
-
 
 // Get User Stories
 export const getStories = async (req, res) => {
@@ -76,7 +74,6 @@ export const getStories = async (req, res) => {
       .sort({ createdAt: -1 });
 
     res.json({ success: true, stories });
-
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

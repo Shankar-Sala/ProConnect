@@ -83,8 +83,8 @@ export const likePost = async (req, res) => {
       post.likes_count = post.likes_count.filter((user) => user !== userId);
       await post.save();
       res.json({ success: true, message: "Post unliked" });
-    }else{
-      post.likes_count.push(userId)
+    } else {
+      post.likes_count.push(userId);
       await post.save();
       res.json({ success: true, message: "Post liked" });
     }
@@ -93,32 +93,3 @@ export const likePost = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
-
-// const images = req.files;
-
-// let image_urls = [];
-
-// if (images.length) {
-//   image_urls = await Promise.all(
-//     images.map(async (image) => {
-//       const fileBuffer = fs.readFileSync(image.path); //remove
-
-//       const response = await imagekit.files.upload({
-//         file: fileBuffer,
-//         fileName: image.originalname,
-//         folder: "posts",
-//       });
-
-//       const url = imagekit.url({
-//         path: response.filePath,
-//         transformation: [
-//           { quality: "auto" },
-//           { format: "webp" },
-//           { width: "1280" },
-//         ],
-//       });
-
-//       return url;
-//     })
-//   );
-// }

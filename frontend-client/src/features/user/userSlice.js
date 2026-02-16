@@ -1,11 +1,12 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import api from "../../api/axios.js";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import api from "../../api/axios";
 import toast from "react-hot-toast";
 
 const initialState = {
   value: null,
 };
 
+// Fetch logged-in user
 export const fetchUser = createAsyncThunk("user/fetchUser", async (token) => {
   const { data } = await api.get("/api/user/data", {
     headers: { Authorization: `Bearer ${token}` },
@@ -13,6 +14,7 @@ export const fetchUser = createAsyncThunk("user/fetchUser", async (token) => {
   return data.success ? data.user : null;
 });
 
+//update user
 export const updateUser = createAsyncThunk(
   "user/update",
   async ({ userData, token }) => {
@@ -26,7 +28,7 @@ export const updateUser = createAsyncThunk(
       toast.error(data.message);
       return null;
     }
-  }
+  },
 );
 
 const userSlice = createSlice({

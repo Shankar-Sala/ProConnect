@@ -9,7 +9,7 @@ const storySchema = new mongoose.Schema(
     views_count: [{ type: String, ref: "User" }],
     background_color: { type: String },
   },
-  { timestamps: true, minimize: false }
+  { timestamps: true, minimize: false },
 );
 
 const Story = mongoose.model("Story", storySchema);

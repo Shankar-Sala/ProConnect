@@ -87,5 +87,3 @@ const StoriesBar = () => {
 };
 
 export default StoriesBar;
-
-

@@ -1,18 +1,16 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    connections: [],
-    pendingConnections: [],
-    followers: [],
-    following: [],
-} 
+  connections: [],
+  pendingConnections: [],
+  followers: [],
+  following: [],
+};
 
 const connectionsSlice = createSlice({
-    name: 'connections',
-    initialState,
-    reducers: {
+  name: "connections",
+  initialState,
+  reducers: {},
+});
 
-    }
-})
-
-export default connectionsSlice.reducer
+export default connectionsSlice.reducer;

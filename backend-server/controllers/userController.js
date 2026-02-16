@@ -1,8 +1,8 @@
 import imagekit from "../configs/imageKit.js";
 import { inngest } from "../inngest/index.js";
 import Connection from "../models/Connections.js";
+import Post from "../models/Post.js";
 import User from "../models/User.js";
-// import fs from "fs";
 
 //! Get User Data using userId
 export const getUserData = async (req, res) => {
