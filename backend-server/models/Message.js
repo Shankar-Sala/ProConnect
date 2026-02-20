@@ -9,7 +9,7 @@ const messageSchema = new mongoose.Schema(
     media_url: { type: String },
     seen: { type: Boolean, default: false },
   },
-  { timestamps:true, minimize: false }
+  { timestamps: true, minimize: false },
 );
 
 const Message = mongoose.model("Message", messageSchema);

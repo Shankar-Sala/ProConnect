@@ -12,7 +12,7 @@ const postSchema = new mongoose.Schema(
     },
     likes_count: [{ type: String, ref: "User" }],
   },
-  { timestamps: true, minimize: false }
+  { timestamps: true, minimize: false },
 );
 
 const Post = mongoose.model("Post", postSchema);

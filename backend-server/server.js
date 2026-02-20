@@ -14,19 +14,11 @@ const app = express();
 
 await connectDB();
 
-// ✅ FIXED CORS (IMPORTANT)
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
-
 app.use(express.json());
+app.use(cors());
 app.use(clerkMiddleware());
 
 app.get("/", (req, res) => res.send("✅ Server is running"));
-
 app.use("/api/inngest", serve({ client: inngest, functions }));
 app.use("/api/user", userRouter);
 app.use("/api/post", postRouter);
@@ -35,5 +27,5 @@ app.use("/api/message", messageRouter);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () =>
-  console.log(`🚀 Server running on http://localhost:${PORT}`)
+  console.log(`🚀 Server running on http://localhost:${PORT}`),
 );

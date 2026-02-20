@@ -1,8 +1,7 @@
-import fs from "fs";
-import imagekit from "../configs/imageKit.js";
 import Story from "../models/Story.js";
 import User from "../models/User.js";
 import { inngest } from "../inngest/index.js";
+import imagekit from "../configs/imageKit.js";
 
 // Add user story
 export const addUserStory = async (req, res) => {
@@ -10,19 +9,34 @@ export const addUserStory = async (req, res) => {
     const { userId } = req.auth();
     const { content, media_type, background_color } = req.body;
     const media = req.file;
+
     let media_url = "";
 
-    //upload media to imagekit
-    if (media_type === "image" || media_type === "video") {
-      const fileBuffer = fs.readFileSync(media.path);
-      const response = await imagekit.upload({
-        file: fileBuffer,
-        fileName: media.originalname,
+    // ✅ Upload media to ImageKit (if image or video)
+    if ((media_type === "image" || media_type === "video") && media) {
+      // Validate media type
+      if (
+        !media.mimetype.startsWith("image/") &&
+        !media.mimetype.startsWith("video/")
+      ) {
+        return res.json({
+          success: false,
+          message: "Only image or video files are allowed",
+        });
+      }
+
+      const base64File = media.buffer.toString("base64");
+
+      const response = await imagekit.files.upload({
+        file: base64File,
+        fileName: `${userId}-${Date.now()}-${media.originalname}`,
+        folder: "stories",
       });
+
       media_url = response.url;
     }
 
-    //create story
+    // ✅ Create story
     const story = await Story.create({
       user: userId,
       content,
@@ -31,27 +45,26 @@ export const addUserStory = async (req, res) => {
       background_color,
     });
 
-    // schedule story deletion after 24 hours
+    // ✅ Schedule deletion after 24 hours
     await inngest.send({
       name: "app/story.delete",
       data: { storyId: story._id },
     });
 
-    res.json({ success: true });
+    res.json({ success: true, story });
   } catch (error) {
-    Console.log(error);
-    res.jsom({ success: false, message: error.message });
+    console.log(error);
+    res.json({ success: false, message: error.message });
   }
 };
 
-//get User Story
+// Get User Stories
 export const getStories = async (req, res) => {
   try {
     const { userId } = req.auth();
     const user = await User.findById(userId);
 
-    //user connections and followings
-
+    //user coonections and followers
     const userIds = [userId, ...user.connections, ...user.following];
 
     const stories = await Story.find({
@@ -60,9 +73,9 @@ export const getStories = async (req, res) => {
       .populate("user")
       .sort({ createdAt: -1 });
 
-    res.json({ success: false, stories });
+    res.json({ success: true, stories });
   } catch (error) {
-    Console.log(error);
+    console.log(error);
     res.json({ success: false, message: error.message });
   }
 };

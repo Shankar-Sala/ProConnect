@@ -1,6 +1,6 @@
 import { Inngest } from "inngest";
 import User from "../models/User.js";
-import Connection from "../models/Connection.js";
+import Connection from "../models/Connections.js";
 import sendEmail from "../configs/nodeMailer.js";
 import Story from "../models/Story.js";
 import Message from "../models/Message.js";
@@ -32,7 +32,7 @@ const syncUserCreation = inngest.createFunction(
       username,
     };
     await User.create(userData);
-  }
+  },
 );
 
 //Inngest Function to update user data to a database
@@ -49,7 +49,7 @@ const syncUserUpdation = inngest.createFunction(
       profile_picture: image_url,
     };
     await User.findByIdAndUpdate(id, updatedUserData);
-  }
+  },
 );
 
 //Inngest Function to Delete user from database
@@ -59,7 +59,7 @@ const syncUserDeletion = inngest.createFunction(
   async ({ event }) => {
     const { id } = event.data;
     await User.findByIdAndDelete(id);
-  }
+  },
 );
 
 //Inngest Function to send Remainder when a new connection request is added
@@ -71,7 +71,7 @@ const sendNewConnectionRequestRemainder = inngest.createFunction(
 
     await step.run("send-connection-request-mail", async () => {
       const connection = await Connection.findById(connectionId).populate(
-        "from_ser_id to_user_id"
+        "from_ser_id to_user_id",
       );
       const subject = `👋 New Connection Request`;
       const body = `
@@ -94,7 +94,7 @@ const sendNewConnectionRequestRemainder = inngest.createFunction(
     await step.sleepUntil("wait-for-24-hours", in24Hours);
     await step.run("send-connection-request-reminder", async () => {
       const connection = await Connection.findById(connectionId).populate(
-        "from_user_id to_user_id"
+        "from_user_id to_user_id",
       );
 
       if (connection.status === "accepted") {
@@ -117,7 +117,7 @@ const sendNewConnectionRequestRemainder = inngest.createFunction(
       });
       return { message: "Reminder sent." };
     });
-  }
+  },
 );
 
 //Inngest Function to delete story after 24 hours
@@ -132,7 +132,7 @@ const deleteStory = inngest.createFunction(
       await Story.findByIdAndDelete(storyId);
       return { message: "Story deleted." };
     });
-  }
+  },
 );
 
 const sendNotificationOfUnseenMessages = inngest.createFunction(
@@ -165,11 +165,11 @@ const sendNotificationOfUnseenMessages = inngest.createFunction(
       await sendEmail({
         to: user.email,
         subject,
-        body 
-      })
+        body,
+      });
     }
-    return {message: "Notification sent."}
-  }
+    return { message: "Notification sent." };
+  },
 );
 
 // Create an empty array where we'll export future Inngest functions
@@ -179,5 +179,5 @@ export const functions = [
   syncUserDeletion,
   sendNewConnectionRequestRemainder,
   deleteStory,
-  sendNotificationOfUnseenMessages
+  sendNotificationOfUnseenMessages,
 ];

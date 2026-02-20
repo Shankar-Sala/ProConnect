@@ -4,62 +4,47 @@ import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const CreatePost = () => {
-  const { value: user } = useSelector((state) => state.user);
-
   const [content, setContent] = useState("");
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  if (!user) return null; // 🔥 prevent crash
+  const user = useSelector((state) => state.user.value); //test-2 done
 
-  const handleSubmit = async () => {
-    // we will implement later
-  };
+  const handleSubmit = async () => {};
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-6xl mx-auto p-6">
-
-        {/* Title */}
+        {/* {Title} */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
             Create Post
           </h1>
-          <p className="text-slate-600">
-            Share your thoughts with the world
-          </p>
+          <p className="text-slate-600">Share your thoughts with the world</p>
         </div>
-
-        {/* Form */}
-        <div className="max-w-xl bg-white p-6 rounded-xl shadow-md space-y-4">
-
+        {/* {Form} */}
+        <div className="max-w-xl bg-white p-4 sm:p-8 sm:p-8 sm:pb-3 rounded-xl shadow-md space-y-4">
           {/* Header */}
           <div className="flex items-center gap-3">
             <img
-              src={user.profile_picture || "/default-avatar.png"}
-              alt="profile"
-              className="w-12 h-12 rounded-full shadow object-cover"
+              src={user.profile_picture}
+              alt=""
+              className="w-12 h-12 rounded-full shadow"
             />
-
             <div>
-              <h2 className="font-semibold">
-                {user.full_name || "User"}
-              </h2>
-              <p className="text-sm text-gray-500">
-                @{user.username || ""}
-              </p>
+              <h2 className="font-semibold">{user.full_name}</h2>
+              <p className="text-sm text-gray-500">@{user.username}</p>
             </div>
           </div>
-
           {/* Text Area */}
           <textarea
-            className="w-full resize-none max-h-24 mt-4 text-sm outline-none placeholder-gray-400"
+            className="w-full resize-none max-h-20 mt-4 text-sm outline-none placeholder-gray-400"
             placeholder="What's happening?"
             onChange={(e) => setContent(e.target.value)}
             value={content}
           />
 
-          {/* Image Preview */}
+          {/* Images */}
           {images.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">
               {images.map((image, i) => (
@@ -67,7 +52,7 @@ const CreatePost = () => {
                   <img
                     src={URL.createObjectURL(image)}
                     className="h-20 rounded-md"
-                    alt="preview"
+                    alt=""
                   />
                   <div
                     onClick={() =>
@@ -90,25 +75,21 @@ const CreatePost = () => {
             >
               <Image className="size-6" />
             </label>
-
             <input
               type="file"
               id="images"
               accept="image/*"
               hidden
               multiple
-              onChange={(e) =>
-                setImages([...images, ...Array.from(e.target.files)])
-              }
+              onChange={(e) => setImages([...images, ...e.target.files])}
             />
-
             <button
               disabled={loading}
               onClick={() =>
                 toast.promise(handleSubmit(), {
-                  loading: "Uploading...",
-                  success: "Post added",
-                  error: "Post not added",
+                  loading: "uploading ...",
+                  success: <p>Post added</p>,
+                  error: <p>Post not added</p>,
                 })
               }
               className="text-sm bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 active:scale-95 transition text-white font-medium px-8 py-2 rounded-md cursor-pointer"
