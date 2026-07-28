@@ -3,7 +3,7 @@
 **ProConnect** is a feature-rich social media and collaboration platform inspired by **Instagram**, **Twitter**, and **LinkedIn**, built specifically for **internal networking among interns, students, and team members**.  
 It unifies **professional networking**, **real-time communication**, and **interactive entertainment** into a single ecosystem.
 
-🔗 **Repository:** https://github.com/Shankar-Sala/ProConnect
+🔗 **Repository:** https://github.com/shankarsala/ProConnect
 
 ---
 
@@ -109,7 +109,7 @@ This fragmented experience leads to inefficiency and context switching.
 Thanks to all the contributors who help improve **ProConnect** 🚀
 
 - **Shankar Sala** — Project Owner & Developer  
-  🔗 https://github.com/Shankar-Sala  
+  🔗 https://github.com/shankarsala  
 
 - **Aryan** — Contributor  
   🔗 https://github.com/Aryannn74  
@@ -119,7 +119,7 @@ Thanks to all the contributors who help improve **ProConnect** 🚀
 ## 👨‍💻 Author
 
 **Shankar Sala**  
-🔗 GitHub: https://github.com/Shankar-Sala
+🔗 GitHub: https://github.com/shankarsala
 
 ---
 
