@@ -1,128 +1,330 @@
 # 🌐 ProConnect
 
-**ProConnect** is a feature-rich social media and collaboration platform inspired by **Instagram**, **Twitter**, and **LinkedIn**, built specifically for **internal networking among interns, students, and team members**.  
-It unifies **professional networking**, **real-time communication**, and **interactive entertainment** into a single ecosystem.
+<div align="center">
 
-🔗 **Repository:** https://github.com/shankarsala/ProConnect
+# ProConnect
 
----
+**A MERN Stack Social Media Platform for Professional Networking & Collaboration**
 
-## 📌 Problem Statement
+Developed as an internship team project at **CourseVita**
 
-In today’s digital era, users rely on multiple platforms for different needs:
+![Project Status](https://img.shields.io/badge/Status-Paused-yellow)
+![React](https://img.shields.io/badge/React-19-blue)
+![Node.js](https://img.shields.io/badge/Node.js-Express-green)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-success)
 
-- LinkedIn for professional networking  
-- Instagram/Twitter for social engagement  
-- Separate apps for messaging, video calls, and entertainment  
-
-This fragmented experience leads to inefficiency and context switching.
-
-**ProConnect solves this problem** by offering a **single unified platform** that enables users to:
-
-- Network professionally  
-- Engage socially  
-- Communicate in real time  
-- Collaborate and consume content together  
+</div>
 
 ---
 
-## 🚀 Key Features
+## 📖 Overview
 
-### 📸 1. Stories & Posts
-- Upload stories and create posts with captions, images, or videos  
-- Supports likes, reposts, comments, and shares  
+**ProConnect** is a full-stack social networking platform inspired by professional and social networking applications such as LinkedIn, Instagram, and Twitter.
 
----
+The platform was developed as part of an internship project at **CourseVita**, focusing on building a modern social media application using the **MERN Stack** and industry-standard development practices.
 
-### ❤️ 2. Like, Repost & Share
-- Quick engagement with content  
-- Repost stories/posts to your feed  
-- Share via direct links or in-app chats  
+The objective was to build a platform where users can:
 
----
-
-### 💬 3. Real-time Messaging
-- One-on-one real-time chat  
-- Built using **Firebase Realtime Database**  
-- Instant message synchronization  
+- Build professional connections
+- Share posts and media
+- Discover other users
+- Communicate through real-time chat
+- Manage profiles
+- Collaborate within a unified platform
 
 ---
 
-### 📞 4. 1-on-1 Audio & Video Calling
-- Secure video/audio calls  
-- Powered by **WebRTC**  
-- Responsive UI across devices  
+# 🏢 Internship Information
+
+| Details | Information |
+|----------|-------------|
+| Organization | CourseVita |
+| Project | ProConnect |
+| Repository Owner | Shankar Sala |
+| Mentor | Nishanth Gowda |
+| Team Members | Shankar Sala, Aryan Divekar |
+| Development Type | Internship Team Project |
 
 ---
 
-### 🍿 5. Watch Together
-- Watch movies or videos together in sync  
-- Play, pause, and seek synchronization  
+## 🚀 Features
+
+### 👤 Authentication
+
+- Secure authentication using Clerk
+- User registration
+- Login
+- Session management
 
 ---
 
-### 🔍 6. Smart Suggestions
-- User recommendations based on:
-  - Interests
-  - Roles (e.g., Full Stack Developer)
-  - Activity  
+### 📰 Social Feed
+
+- Create posts
+- Like posts
+- View feed
+- Responsive feed layout
 
 ---
 
-### 🧑‍💻 7. My Account & Profile
-- Personalized profiles with:
-  - Bio
-  - Tech stack
-  - Posts & stories
-  - Activity analytics  
+### 👥 User Profiles
+
+- Profile page
+- Edit profile
+- Profile picture
+- User bio
 
 ---
 
-## 🛠️ Tech Stack
+### 💬 Messaging
 
-- **Frontend:** React / HTML / CSS / JavaScript  
-- **Backend:** Firebase  
-- **Database:** Firebase Realtime Database  
-- **Real-time Communication:** WebRTC  
-- **Authentication:** Firebase Authentication  
+- Real-time chat interface
+- Conversation list
+- Recent messages
 
 ---
 
-## 🎯 Use Cases
+### 🤝 Connections
 
-- Internal networking for interns or teams  
-- Professional discovery  
-- Real-time communication  
-- Social engagement  
-- Collaborative entertainment  
+- Discover users
+- Connect with users
+- Manage connections
 
 ---
 
-## 📂 Project Status
+### 🔍 Discover
 
-🚧 **Under active development**
-
----
-
-## 🤝 Contributors
-
-Thanks to all the contributors who help improve **ProConnect** 🚀
-
-- **Shankar Sala** — Project Owner & Developer  
-  🔗 https://github.com/shankarsala  
-
-- **Aryan** — Contributor  
-  🔗 https://github.com/Aryannn74  
+- Search users
+- Explore profiles
+- Suggested connections
 
 ---
 
-## 👨‍💻 Author
+### 🖼 Media Upload
 
-**Shankar Sala**  
-🔗 GitHub: https://github.com/shankarsala
+- Image upload
+- Image optimization
+- ImageKit integration
 
 ---
 
-## ⭐ Support
+## 🛠 Tech Stack
 
-If you like this project, please consider giving it a ⭐ on GitHub!
+### Frontend
+
+- React.js
+- JavaScript
+- Tailwind CSS
+- React Router
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- MongoDB
+
+### Authentication
+
+- Clerk Authentication
+
+### Image Storage
+
+- ImageKit
+
+### Background Jobs
+
+- Inngest
+
+### Version Control
+
+- Git
+- GitHub
+
+---
+
+# 📂 Project Structure
+
+```
+client/
+├── components/
+├── pages/
+├── assets/
+├── context/
+├── hooks/
+└── utils/
+
+server/
+├── controllers/
+├── routes/
+├── middleware/
+├── models/
+├── config/
+└── server.js
+```
+
+---
+
+# 📈 Development Progress
+
+The project was developed collaboratively during the internship.
+
+### ✅ Completed
+
+- React Frontend
+- Authentication
+- Home Feed
+- Sidebar
+- Profile Page
+- Discover Page
+- Connections Page
+- Chat UI
+- Recent Messages
+- Create Post
+- Backend Setup
+- MongoDB Connection
+- Inngest Integration
+- ImageKit Integration
+
+---
+
+### ⏳ Planned
+
+- Backend Integration
+- Real-time Messaging
+- Notifications
+- Deployment
+- Final Testing
+- Performance Optimization
+
+---
+
+# 📌 Current Status
+
+> **Development Paused**
+
+The project was developed during an internship at **CourseVita**.
+
+Development progressed successfully through the **ImageKit Integration** milestone.
+
+Following the internship, the project review process was not completed, and active development was paused.
+
+This repository is now maintained by **Shankar Sala** and may continue as a personal learning project in the future.
+
+---
+
+# 🤝 Team
+
+| Name | Role |
+|------|------|
+| **Shankar Sala** | Repository Owner . Developer |
+| **Aryan Divekar** | Developer |
+| **Nishanth Gowda** | Project Mentor |
+
+---
+
+# 🙏 Acknowledgements
+
+This project was developed during an internship at **CourseVita**.
+Special thanks to:
+- Nishanth Gowda for project mentorship and technical guidance.
+
+The project has been extended and maintained as a personal learning repository.
+
+---
+
+# 📚 Learning Outcomes
+
+Through this project, we gained practical experience with:
+
+- React.js
+- MERN Stack Architecture
+- Clerk Authentication
+- MongoDB
+- REST APIs
+- ImageKit
+- Inngest
+- Git & GitHub Collaboration
+- Team Development Workflow
+- Component-Based Architecture
+- Responsive UI Development
+
+---
+
+# 🚀 Future Improvements
+
+- Complete backend integration
+- Deploy frontend and backend
+- Real-time notifications
+- Video & voice calling
+- Stories
+- Watch Together
+- Friend recommendations
+- Mobile responsiveness improvements
+- Performance optimization
+
+---
+
+# 💻 Local Setup
+
+Clone the repository
+
+```bash
+git clone https://github.com/shankarsala/ProConnect.git
+```
+
+Move into the project
+
+```bash
+cd ProConnect
+```
+
+Install dependencies
+
+```bash
+npm install
+```
+
+Start development server
+
+```bash
+npm run dev
+```
+
+---
+
+# 🌐 Repository
+
+GitHub
+
+https://github.com/shankarsala/ProConnect
+
+---
+
+# 👨‍💻 Repository Maintainer
+
+**Shankar Sala**
+
+GitHub
+
+https://github.com/shankarsala
+
+LinkedIn
+
+https://www.linkedin.com/in/shankarsala/
+
+---
+
+# ⭐ Support
+
+If you found this project helpful, consider giving it a **Star ⭐** on GitHub.
+
+It motivates future improvements and helps others discover the project.
+
+---
+
+## 📄 License
+
+This repository is intended for educational and portfolio purposes.
