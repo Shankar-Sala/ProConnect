@@ -36,14 +36,15 @@ The objective was to build a platform where users can:
 
 # 🏢 Internship Information
 
-| Details | Information |
-|----------|-------------|
-| Organization | CourseVita |
-| Project | ProConnect |
-| Repository Owner | Shankar Sala |
-| Mentor | Nishanth Gowda |
-| Team Members | Shankar Sala, Aryan Divekar |
-| Development Type | Internship Team Project |
+| Item | Details | Link |
+|------|---------|------|
+| **Organization** | CourseVita | [Website](https://main-revitalize.vercel.app/) |
+| **Project** | ProConnect | [Repository](https://github.com/shankarsala/ProConnect) |
+| **Repository Owner** | Shankar Sala | [@shankarsala](https://github.com/shankarsala) |
+| **Project Mentor** | Nishanth Gowda | [@NishanthGowda007](https://github.com/NishanthGowda007) |
+| **Developer** | Shankar Sala | [@shankarsala](https://github.com/shankarsala) |
+| **Developer** | Aryan Divekar | [@Aryannn74](https://github.com/Aryannn74) |
+| **Project Type** | Internship Team Project | — |
 
 ---
 
